@@ -1,0 +1,39 @@
+﻿@model URLShortner.Models.URLDetails
+
+@{
+    ViewBag.Title = "Home Page";
+}
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="input-group" style="padding-bottom: 2rem;">
+                <input type="text" id="txtLongURL" class="form-control input-lg" placeholder="Enter Long URL" />
+                <div class="input-group-btn">
+                    <button id="btnShortURL" class="btn btn-primary">Shrink</button>
+                </div>
+            </div>
+
+            <div class="card border-primary mb-3" id="divResult" style="display:none;">
+                <div class="card-body">
+                    <p class="card-text">Here is the shorter URL you can use to access the Original URL</p>
+                    <div id="urlShort" style="padding-bottom: 2rem;">
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $("#btnShortURL").on("click", function () {
+            var longURL = $("#txtLongURL").val();
+            $.post("/Home/GenerateShortURL", { longURL: longURL }, function (data) {
+                $("#urlShort").html("<a href='http://localhost:49336/" + data.code + "' target='_blank'>localhost:49336/" + data.code + "</a>");
+                $("#divResult").show();
+            });
+        });
+    </script>
+}
